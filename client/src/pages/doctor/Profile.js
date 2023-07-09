@@ -70,6 +70,7 @@ const Profile = () => {
   return (
     <Layout>
       <h1>Manage Profile</h1>
+
       {doctor && (
         <Form
           layout="vertical"
