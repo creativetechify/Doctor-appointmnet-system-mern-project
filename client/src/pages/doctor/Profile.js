@@ -7,12 +7,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
 import axios from "axios";
+import moment from "moment";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
   const [doctor, setDoctor] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(doctor);
 
   const params = useParams();
   //===update document
@@ -21,7 +23,14 @@ const Profile = () => {
       dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/doctor/updateProfile",
-        { ...values, userId: user._id },
+        {
+          ...values,
+          userId: user._id,
+          timings: [
+            moment(values.timings[0]).format("HH:mm"),
+            moment(values.timings[1]).format("HH:mm"),
+          ],
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -30,7 +39,7 @@ const Profile = () => {
       );
       dispatch(hideLoading());
       if (res.data.success) {
-        message.success(res.data.success);
+        message.success(res.data.message);
         navigate("/");
       } else {
         message.error(res.data.success);
@@ -43,14 +52,16 @@ const Profile = () => {
   };
   //===update document===
   //get Docment Details
+
   const getDoctorInfo = async () => {
     try {
+      const token = localStorage.getItem("token");
       const res = await axios.post(
         "/api/v1/doctor/getDoctorInfo",
         { userId: params.id },
         {
-          header: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -76,7 +87,13 @@ const Profile = () => {
           layout="vertical"
           onFinish={handleFinish}
           className="m-3"
-          initialValues={doctor}
+          initialValues={{
+            ...doctor,
+            timings: [
+              moment(doctor.timings[0], "HH:mm"),
+              moment(doctor.timings[1], "HH:mm"),
+            ],
+          }}
         >
           <h4 className="">Personal Details :</h4>
           <Row gutter={20}>
@@ -177,7 +194,7 @@ const Profile = () => {
             <Col xs={24} md={24} lg={8}></Col>
             <Col xs={24} md={24} lg={8}>
               <button className="btn btn-primary form-btn" type="submit">
-                Submit
+                Update
               </button>
             </Col>
           </Row>
