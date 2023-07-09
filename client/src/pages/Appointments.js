@@ -12,7 +12,7 @@ const Appointments = () => {
     try {
       const res = await axios.get("/api/v1/user/user-appointments", {
         headers: {
-          Authorization: `Bearer${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (res.data.success) {
@@ -29,30 +29,31 @@ const Appointments = () => {
 
   const columns = [
     {
-      title: "ID",
+      title: "Id",
       dataIndex: "_id",
     },
-    {
-      title: "Name",
-      dataIndex: "name",
-      render: (text, record) => (
-        <span>
-          {record.doctorId.firstName}
-          {record.doctorId.lastName}
-        </span>
-      ),
-    },
-    {
-      title: "Phone",
-      dataIndex: "phone",
-      render: (text, record) => <span>{record.doctorId.phone} </span>,
-    },
+    // {
+    //   title: "Name",
+    //   dataIndex: "name",
+    //   render: (text, record) => (
+    //     <span>
+    //       {record.doctorId.firstName}
+    //       {record.doctorId.lastName}
+    //     </span>
+    //   ),
+    // },
+    // {
+    //   title: "Phone",
+    //   dataIndex: "phone",
+    //   render: (text, record) => <span>{record.doctorId.phone} </span>,
+    // },
+
     {
       title: "Date & Time",
       dataIndex: "date",
       render: (text, record) => (
         <span>
-          {moment(record.date).format("DD-MM-YYYY")}
+          {moment(record.date).format("DD-MM-YYYY")} &nbsp;
           {moment(record.time).format("HH:mm")}
         </span>
       ),
@@ -60,7 +61,6 @@ const Appointments = () => {
     {
       title: "Status",
       dataIndex: "status",
-      // eslint-disable-next-line
     },
   ];
 
