@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "proxy":"http://localhost:8080",
+  "proxy": "http://127.0.0.1:8080/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,8 +11,10 @@
     "axios": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
